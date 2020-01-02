@@ -1,0 +1,41 @@
+ 
+  .home-class{
+     display: flex;
+     flex-direction: column;
+  }
+
+  .form-class{
+    max-width: 250px;
+    margin: 1.5em;
+ }
+
+
+//  .weather-forecast-class{
+    // display: flex;
+    //  flex-direction: column;
+    // width: 100%;
+    // height: 100%;
+    // background-color: red
+//  }
+
+ .current-weather-class{
+     text-align: center;
+ }
+
+ .week-weather-class{
+     display: flex;
+     flex-direction: row;
+     justify-content: space-around;
+
+ }
+
+ .example-card {
+    max-width: 400px;
+  }
+  
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+
+
