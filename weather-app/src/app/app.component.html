@@ -1,2 +1,4 @@
-<app-top-bar></app-top-bar>
-<router-outlet></router-outlet>
+<div [ngClass]="{'dark-theme': isDarkTheme}">
+    <app-top-bar (toogleDarkThemeEvent)="changeTheme($event)"></app-top-bar>
+    <router-outlet></router-outlet>
+</div>

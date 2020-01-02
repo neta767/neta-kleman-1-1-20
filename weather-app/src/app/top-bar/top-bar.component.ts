@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./top-bar.component.scss']
 })
 export class TopBarComponent implements OnInit {
+  @Output() toogleDarkThemeEvent = new EventEmitter<boolean>();
 
   navLinks: any[];
   activeLinkIndex = -1; 
@@ -27,6 +28,10 @@ export class TopBarComponent implements OnInit {
   ngOnInit() {this.router.events.subscribe((res) => {
     this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
 });
+  }
+
+  toggleDarkTheme(checked: boolean) {
+    this.toogleDarkThemeEvent.emit(checked);
   }
 
 }

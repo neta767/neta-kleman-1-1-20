@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import { TopBarComponent } from './top-bar/top-bar.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TopBarComponent } from './top-bar/top-bar.component';
     MatToolbarModule,
     HttpClientModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
