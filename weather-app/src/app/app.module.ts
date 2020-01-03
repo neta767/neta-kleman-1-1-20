@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FavoritesService } from './favorites.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CommonModule,
     MatButtonToggleModule,
     MatTooltipModule],
-  providers: [],
+  providers: [FavoritesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

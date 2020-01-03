@@ -1,8 +1,12 @@
 <div class="container">
     <div *ngFor="let city of citys">
-        <mat-card>
-            <p class="city-class">{{city.LocalizedName}}</p>
-            <!-- <p class="tem-class">{{day.Temperature}}°</p> -->
-        </mat-card>
+        <a routerLink="/home//{{try}}">
+            <mat-card class="card-class">
+                <p class="city-class">{{city.LocalizedName}}</p>
+                <p *ngIf="celsius" class="text-class">{{tem}}°</p>
+                <p *ngIf="!celsius" class="degree-class">{{tem}}°</p>
+                <p class="text-class">{{text}}</p>
+            </mat-card>
+        </a>
     </div>
 </div>

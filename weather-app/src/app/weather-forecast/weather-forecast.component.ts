@@ -3,6 +3,7 @@ import { RestService } from '../rest.service';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
+import { FavoritesService } from '../favorites.service';
 
 export interface city {
   Key: string;
@@ -31,7 +32,10 @@ export class WeatherForecastComponent implements OnInit, AfterViewInit {
   //
   public onList: boolean = false;
   //
-
+  try1: city = {
+    Key: '5655',
+    LocalizedName: 'Tel Aviv'
+  }
   public cityKey = '5655';
   public cityName = 'Tel Aviv';
 
@@ -48,7 +52,7 @@ export class WeatherForecastComponent implements OnInit, AfterViewInit {
   try: dayWeather = { Temperature: '15', day: 'monday' }
   forecastWeather: dayWeather[] = [this.try, this.try, this.try, this.try, this.try];
 
-  constructor(public rest: RestService) {
+  constructor(public rest: RestService, public favorites: FavoritesService) {
     this.filteredCitys = this.cityCtrl.valueChanges
       .pipe(
         startWith(''),
@@ -83,6 +87,11 @@ export class WeatherForecastComponent implements OnInit, AfterViewInit {
     //   );
   }
 
+  onTheFavoritesLisr(){
+    // this.favorites.isExist(key)
+
+  }
+
   search(cityName: string) {
     this.rest.getAutocomplete(cityName).subscribe(res => {
       this.getWeather(res[0].Key);
@@ -100,26 +109,32 @@ export class WeatherForecastComponent implements OnInit, AfterViewInit {
   }
 
   getWeather(locationKey: string) {
-    this.rest.getCurrentConditions(locationKey).subscribe(res => {
-      this.todayWeather.WeatherText = res[0].WeatherText;
-      this.todayWeather.TemperatureCelsius = res[0].Temperature.Metric.Value;
-      this.todayWeather.TemperatureFahrenheit = res[0].Temperature.Imperial.Value;
-    })
+    // this.rest.getCurrentConditions(locationKey).subscribe(res => {
+    //   this.todayWeather.WeatherText = res[0].WeatherText;
+    //   this.todayWeather.TemperatureCelsius = res[0].Temperature.Metric.Value;
+    //   this.todayWeather.TemperatureFahrenheit = res[0].Temperature.Imperial.Value;
+    // })
 
-    this.rest.getForecasts(locationKey, this.metric).subscribe(res => {
-      this.forecastWeather = res;
-      console.log(res)
-    })
+    // this.rest.getForecasts(locationKey, this.metric).subscribe(res => {
+    //   this.forecastWeather = res;
+    //   console.log(res)
+    // })
   }
 
   onValChange(tempUnit: string) {
-    tempUnit === 'c' ? this.celsius = true : this.celsius = false;
-    this.rest.getForecasts(this.cityKey, this.metric).subscribe(res => {
-      this.forecastWeather = res;
-    })
+    // tempUnit === 'c' ? this.celsius = true : this.celsius = false;
+    // this.rest.getForecasts(this.cityKey, this.metric).subscribe(res => {
+    //   this.forecastWeather = res;
+    // })
   }
 
   addToFavorites() {
     this.onList = !this.onList;
+    if (this.onList) {
+      this.favorites.addToList(this.try1)
+    }
+    else{
+      this.favorites.removeFromList(this.try1.Key)
+    }
   }
 }
