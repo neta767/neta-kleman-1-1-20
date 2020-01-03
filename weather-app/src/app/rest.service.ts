@@ -31,12 +31,12 @@ export class RestService {
 
 
 
-  // getAutocomplete(city: string): Observable<any> {
-  //   const params = new HttpParams()
-  //     .set('apikey', this.apiKey)
-  //     .set('q', city)
-  //   return this.http.get(this.url + 'locations/v1/cities/autocomplete', { params });
-  // }
+  getAutocomplete(city: string): Observable<any> {
+    const params = new HttpParams()
+      .set('apikey', this.apiKey)
+      .set('q', city)
+    return this.http.get(this.url + 'locations/v1/cities/autocomplete', { params });
+  }
 
   getCurrentConditions(locationKey: string): Observable<any> {
     const params = new HttpParams()

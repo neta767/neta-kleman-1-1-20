@@ -1,38 +1,52 @@
-<div class="home-class">
-    <mat-form-field class="form-class">
-        <input matInput placeholder="City">
+<div class="container">
+    <mat-form-field class="form-container">
+        <input matInput placeholder="City" [matAutocomplete]="auto" [formControl]="cityCtrl" #citySearch
+            (keyup)="onChange(citySearch.value)">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let city of filteredCitys | async" [value]="city.name">
+                <span>{{city.LocalizedName}}</span>
+            </mat-option>
+        </mat-autocomplete>
+        <button mat-icon-button matSuffix (click)="search(citySearch.value)">
+            <mat-icon>search</mat-icon>
+        </button>
     </mat-form-field>
 
-
-    <div class="weather-forecast-class">
-        <div class="current-weather-class">
-            <!-- <h1>{{weather.name}}</h1> -->
-            <p *ngIf="todayWeather.WeatherText">{{todayWeather.WeatherText}}</p>
-            <p *ngIf="todayWeather.Temperature.Metric.Value">{{todayWeather.Temperature.Metric.Value}}</p>
-        </div>
-        <div class="week-weather-class" *ngIf="forecastWeather">
-            <div *ngFor="let day of forecastWeather">
-                <mat-card class="card-class">
-                    <mat-card-header>
-                        <mat-card-title>{{day.DailyForecasts.Date}}</mat-card-title>
-                        <mat-card-title>{{day.DailyForecasts.RealFeelTemperature.Maximum.Value}}</mat-card-title>
-                    </mat-card-header>
-                </mat-card>
+    <div class="body">
+        <div class="current-weather-container">
+            <div>
+                <span class="city-class">{{cityName}}</span>
+                <span *ngIf="celsius" class="degree-class">{{todayWeather.TemperatureCelsius}}°</span>
+                <span *ngIf="!celsius" class="degree-class">{{todayWeather.TemperatureFahrenheit}}°</span>
+            </div>
+            <div class="text-container">
+                <span>{{todayWeather.WeatherText}}</span>
             </div>
         </div>
+        <div class="function-container">
+            <div class="favorite-container">
+                <button mat-icon-button matSuffix (click)="addToFavorites()">
+                    <mat-icon>favorite</mat-icon>
+                </button>
+            </div>
+            <mat-button-toggle-group #group="matButtonToggleGroup" value="c" (change)="onValChange(group.value)">
+                <mat-button-toggle value="c">
+                    C°
+                </mat-button-toggle>
+                <mat-button-toggle value="f">
+                    F°
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
     </div>
-    <!-- <mat-card class="example-card">
-            <mat-card-header>
-              <div mat-card-avatar class="example-header-image"></div>
-              <mat-card-title>Shiba Inu</mat-card-title>
-              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-              <p>
-                dsafsdgsdg
-              </p>
-            </mat-card-content>
-          </mat-card>
-    </div> -->
+    <div class="week-weather-class">
+        <div *ngFor="let day of forecastWeather">
+            <mat-card>
+                <p class="day-class">{{day.day}}</p>
+                <p class="tem-class">{{day.Temperature}}°</p>
+                <!-- <mat-card-title>{{day.DailyForecasts.Date}}</mat-card-title>
+                            <mat-card-title>{{day.DailyForecasts.RealFeelTemperature.Maximum.Value}}</mat-card-title> -->
+            </mat-card>
+        </div>
+    </div>
 </div>
