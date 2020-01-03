@@ -2,4 +2,16 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    justify-content: space-around;
+    flex-grow: 1;
 }
+
+.city-class{
+ font-size: 20px;
+ font-weight: bold;
+}
+
+// .tem-class{
+//  font-size: 20px;
+//  text-align: center;
+// }

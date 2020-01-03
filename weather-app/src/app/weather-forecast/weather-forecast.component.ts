@@ -29,6 +29,8 @@ export class WeatherForecastComponent implements OnInit, AfterViewInit {
   metric: string = 'true';
   celsius: boolean = true;
   //
+  public onList: boolean = false;
+  //
 
   public cityKey = '5655';
   public cityName = 'Tel Aviv';
@@ -115,5 +117,9 @@ export class WeatherForecastComponent implements OnInit, AfterViewInit {
     this.rest.getForecasts(this.cityKey, this.metric).subscribe(res => {
       this.forecastWeather = res;
     })
+  }
+
+  addToFavorites() {
+    this.onList = !this.onList;
   }
 }

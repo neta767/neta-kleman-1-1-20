@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { RestService } from '../rest.service';
+// import { FavoritesService } from '../favorites.service';
+
 
 @Component({
   selector: 'app-favorites-list',
@@ -6,10 +9,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./favorites-list.component.scss']
 })
 export class FavoritesListComponent implements OnInit {
-
-  constructor() { }
+  citys = [];
+  constructor(public rest: RestService) { }
 
   ngOnInit() {
+    // this.citys = this.favorites.getList();
   }
 
 }

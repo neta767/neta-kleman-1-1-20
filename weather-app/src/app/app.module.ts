@@ -19,8 +19,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -46,8 +46,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    MatButtonToggleModule
-  ],
+    MatButtonToggleModule,
+    MatTooltipModule],
   providers: [],
   bootstrap: [AppComponent]
 })

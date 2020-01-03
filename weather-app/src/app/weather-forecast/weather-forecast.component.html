@@ -26,7 +26,8 @@
         <div class="function-container">
             <div class="favorite-container">
                 <button mat-icon-button matSuffix (click)="addToFavorites()">
-                    <mat-icon>favorite</mat-icon>
+                    <mat-icon *ngIf="!onList" matTooltip="Add to favorites">favorite</mat-icon>
+                    <mat-icon *ngIf="onList" matTooltip="Remove from favorites" color="warn">favorite</mat-icon>
                 </button>
             </div>
             <mat-button-toggle-group #group="matButtonToggleGroup" value="c" (change)="onValChange(group.value)">

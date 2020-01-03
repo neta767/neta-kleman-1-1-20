@@ -1,1 +1,8 @@
-<div class="container"></div>
+<div class="container">
+    <div *ngFor="let city of citys">
+        <mat-card>
+            <p class="city-class">{{city.LocalizedName}}</p>
+            <!-- <p class="tem-class">{{day.Temperature}}°</p> -->
+        </mat-card>
+    </div>
+</div>
