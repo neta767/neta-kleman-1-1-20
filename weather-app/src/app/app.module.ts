@@ -8,9 +8,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomeComponent } from './home/home';
 import { TopBarComponent } from './top-bar/top-bar.component';
 
-//services
-import { FavoritesService } from './favorites.service';
-
 //modules
 import { AppRoutingModule } from './app-routing.module';
 
@@ -27,7 +24,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 //store
-import { reducer } from './store/fav.reducer';
+import { favReducer } from './store/fav.reducer';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -61,9 +58,9 @@ import { StoreModule } from '@ngrx/store';
     CommonModule,
     MatButtonToggleModule,
     MatTooltipModule,
-    StoreModule.forRoot({ fav: reducer })
+    StoreModule.forRoot({ fav: favReducer })
   ],
-  providers: [FavoritesService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

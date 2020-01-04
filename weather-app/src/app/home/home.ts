@@ -3,8 +3,8 @@ import { RestService } from '../rest.service';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
-import { FavoritesService } from '../favorites.service';
 import { Store } from '@ngrx/store';
+import { addToFav, removeFromFav, getAllFav } from '../store/fav.actions';
 // import { addCity } from '../store/fav.actions';
 
 // export interface city {
@@ -59,7 +59,6 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public rest: RestService,
-    // public favorites: FavoritesService,
     private store: Store<{ fav: number }>
   ) {
     // this.filteredCitys = this.cityCtrl.valueChanges
@@ -149,10 +148,15 @@ export class HomeComponent implements OnInit {
   }
 
   isOnTheFavoritesLise() {
-    // this.favorites.isExist(key)
+    this.store.dispatch(getAllFav());
   }
 
   updateFavoritesLise() {
-    // this.store.dispatch(addCity({ id: key, name: name }));
+    if (!this.onList) {
+      this.store.dispatch(addToFav({ info: this.currentWeather }));
+    }
+    else {
+      this.store.dispatch(removeFromFav({ id: this.currentWeather.id }));
+    }
   }
 }

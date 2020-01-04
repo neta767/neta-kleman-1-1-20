@@ -1,15 +1,18 @@
 import { createAction, props } from '@ngrx/store';
+export interface info {
+  id: string;
+  city: string;
+  weatherText: string;
+  temCelsius: string;
+  temFahrenheit: string;
+}
 
-export const getAllFav = createAction('[Counter Component] Reset');
-export const isOnFav = createAction(
-  '[Home Page] isOnFav',
-  props<{ id: string; }>()
-);
+export const getAllFav = createAction('[Home Component] getAllFav');
 export const addToFav = createAction(
-  '[Home Page] addToFav',
-  props<{ id: string; name: string }>()
+  '[Home Component] addToFav',
+  props<{ info: info }>()
 );
 export const removeFromFav = createAction(
-  '[Home Page] removeFromFav',
+  '[Home Component] removeFromFav',
   props<{ id: string; }>()
 );

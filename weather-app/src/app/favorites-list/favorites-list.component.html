@@ -1,20 +1,11 @@
-<!-- <div class="container">
+<div class="container">
     <div *ngFor="let city of citys">
-        <a routerLink="/home//{{try}}">
+        <a routerLink="/home//{{city.id}}">
             <mat-card class="card-class">
-                <p class="city-class">{{city.LocalizedName}}</p>
-                <p *ngIf="celsius" class="text-class">{{tem}}°</p>
-                <p *ngIf="!celsius" class="degree-class">{{tem}}°</p>
-                <p class="text-class">{{text}}</p>
+                <p class="city-class">{{city.city}}</p>
+                <p class="degree-class">{{city.temCelsius}}°</p>
+                <p class="text-class">{{city.weatherText}}</p>
             </mat-card>
         </a>
     </div>
-</div> -->
-
-<button id="increment" (click)="increment()">Increment</button>
-
-<div>Current Count: {{ count$ | async }}</div>
-
-<button id="decrement" (click)="decrement()">Decrement</button>
-
-<button id="reset" (click)="reset()">Reset Counter</button>
+</div>
