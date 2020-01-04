@@ -8,7 +8,8 @@ import { map, catchError, tap } from 'rxjs/operators';
 })
 export class RestService {
   url = 'http://dataservice.accuweather.com/';
-  apiKey = 'ZkzqEU3O6h9XApVvsnAODmxGppdGXYiK';
+  // apiKey = 'ZkzqEU3O6h9XApVvsnAODmxGppdGXYiK';
+  apiKey = 'p6LxgnGQ6hvcznFR5xsGzELOF3L3mysb';
 
   constructor(private http: HttpClient) { }
   // getHeroes (): Observable<Hero[]> {
@@ -17,10 +18,6 @@ export class RestService {
   //       catchError(this.handleError<Hero[]>('getHeroes', []))
   //     );
   // }
-
-  // let params = new HttpParams();
-  // params.set('firstName', customerFilter.firstName);
-  // params.set('lastName', customerFilter.lastName);
 
   // return this.http.get<CustomersData>(settings.url, {
   //     params: params, 
@@ -35,7 +32,7 @@ export class RestService {
     const params = new HttpParams()
       .set('apikey', this.apiKey)
       .set('q', city)
-    return this.http.get(this.url + 'locations/v1/cities/autocomplete', { params });
+    return this.http.get(`${this.url}locations/v1/cities/autocomplete`, { params });
   }
 
   getCurrentConditions(locationKey: string): Observable<any> {
@@ -48,13 +45,13 @@ export class RestService {
     const params = new HttpParams()
       .set('apikey', this.apiKey)
       .set('metric', metric)
-    return this.http.get(this.url + 'forecasts/v1/daily/5day/' + locationKey, { params });
+    return this.http.get(`${this.url}forecasts/v1/daily/5day/${locationKey}`, { params });
   }
 
   getGeopositionByCoords(coords: string): Observable<any> {
     const params = new HttpParams()
       .set('apikey', this.apiKey)
       .set('q', coords)
-    return this.http.get('http://dataservice.accuweather.com/locations/v1/cities/geoposition/search', { params });
+    return this.http.get(`${this.url}locations/v1/cities/geoposition/search`, { params });
   }
 }

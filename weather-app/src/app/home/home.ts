@@ -42,9 +42,9 @@ export class HomeComponent implements OnInit {
   //
   public onList: boolean = false;
 
-  cityCtrl = new FormControl();
-  filteredCitys: Observable<cityInfo[]>;
-  citys: cityInfo[] = [];
+  // cityCtrl = new FormControl();
+  // filteredCitys: Observable<cityInfo[]>;
+  // citys: cityInfo[] = [];
 
   currentWeather: info = {
     id: '',
@@ -60,19 +60,19 @@ export class HomeComponent implements OnInit {
   constructor(
     public rest: RestService,
     // public favorites: FavoritesService,
-    // private store: Store<{ count: number }>
+    private store: Store<{ fav: number }>
   ) {
-    this.filteredCitys = this.cityCtrl.valueChanges
-      .pipe(
-        startWith(''),
-        map(city => city ? this._filterCitys(city) : this.citys.slice())
-      );
+    // this.filteredCitys = this.cityCtrl.valueChanges
+    //   .pipe(
+    //     startWith(''),
+    //     map(city => city ? this._filterCitys(city) : this.citys.slice())
+    //   );
   }
 
-  private _filterCitys(value: string): cityInfo[] {
-    const filterValue = value.toLowerCase();
-    return this.citys.filter(city => city.name.toLowerCase().indexOf(filterValue) === 0);
-  }
+  // private _filterCitys(value: string): cityInfo[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.citys.filter(city => city.name.toLowerCase().indexOf(filterValue) === 0);
+  // }
 
   ngOnInit() {
     //get loaction by coords
@@ -99,50 +99,60 @@ export class HomeComponent implements OnInit {
 
     //get 5 Days Forecasts in celsius
     this.rest.getForecasts(locationKey, 'true').subscribe(res => {
-      for (let i = 0; i < 5; i++) {
-        this.weekForecast[i].day = res.DailyForecasts[i].Date;
-        this.weekForecast[i].temCelsius = res.DailyForecasts[i].Temperature.Maximum.Value;
+      for (let index = 0; index < 5; index++) {
+        this.weekForecast[index].day = this.getDayInWeek(new Date(res.DailyForecasts[index].Date).getDay());
+        this.weekForecast[index].temCelsius = res.DailyForecasts[index].Temperature.Maximum.Value;
       }
     })
 
     //get 5 Days Forecasts in fahrenheit
     this.rest.getForecasts(locationKey, 'false').subscribe(res => {
-      for (let i = 0; i < 5; i++) {
-        this.weekForecast[i].temFahrenheit = res.DailyForecasts[i].Temperature.Maximum.Value;
+      for (let index = 0; index < 5; index++) {
+        this.weekForecast[index].temFahrenheit = res.DailyForecasts[index].Temperature.Maximum.Value;
+
       }
-    });
+    })
+  }
+
+  getDayInWeek(num: number): string {
+    var dayNames = { 0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday', };
+    return dayNames[num];;
   }
 
   onUnitTemChange(temUnit: string) {
     temUnit === 'c' ? this.celsius = true : this.celsius = false;
-    // this.rest.getForecasts(this.cityKey, this.metric).subscribe(res => {
-    //   this.forecastWeather = res;
-    // })
   }
 
-  public onChange(searchingText: string): void {
-    this.rest.getAutocomplete(searchingText).subscribe(res => {
-      this.citys = (JSON.parse(JSON.stringify(res, ['Key', 'LocalizedName'])));
-      console.log(this.citys)
-    })
-  }
+  // public onKeyUp(searchingText: string): void {
+  // this.rest.getAutocomplete(searchingText).subscribe(res => {
+  //   res.forEach(element => {
+  //     this.citys.push({ id: element.key, name: element.LocalizedName })
+  //   });
+  //   console.log(this.citys)
+  // })
+  // }
 
+  // searchWeatherByKey(key: string, name: string) {
+  //   //update city info
+  //   this.currentWeather.city = name;
+  //   this.currentWeather.id = key;
+  //   this.getWeather(key);
+  // }
 
-
-  onTheFavoritesLisr() {
-    // this.favorites.isExist(key)
-
-  }
-
-  search(cityName: string) {
+  searchWeatherByName(cityName: string) {
     this.rest.getAutocomplete(cityName).subscribe(res => {
+      //update city info
+      this.currentWeather.city = res[0].LocalizedName;
+      this.currentWeather.id = res[0].key;
       this.getWeather(res[0].Key);
     })
   }
 
+  isOnTheFavoritesLise() {
+    // this.favorites.isExist(key)
+  }
 
-
-  // addToFavorites(key, name) {
-  // this.store.dispatch(addCity({ id: key, name: name }));
-  // }
+  updateFavoritesLise() {
+    // this.store.dispatch(addCity({ id: key, name: name }));
+  }
 }

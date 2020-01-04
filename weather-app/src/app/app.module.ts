@@ -27,7 +27,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 //store
-// import { reducer } from './store/fav.reducer';
+import { reducer } from './store/fav.reducer';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -60,9 +60,8 @@ import { StoreModule } from '@ngrx/store';
     ReactiveFormsModule,
     CommonModule,
     MatButtonToggleModule,
-    MatTooltipModule
-    // ,
-    // StoreModule.forRoot({ fav: reducer })
+    MatTooltipModule,
+    StoreModule.forRoot({ fav: reducer })
   ],
   providers: [FavoritesService],
   bootstrap: [AppComponent]
