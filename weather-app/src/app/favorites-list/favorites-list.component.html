@@ -1,6 +1,6 @@
 <div class="container">
-    <div *ngFor="let city of citys">
-        <a routerLink="/home//{{city.id}}">
+    <div *ngFor="let city of fav">
+        <a [routerLink]="['/home', city.id, city.name]">
             <mat-card class="card-class">
                 <p class="city-class">{{city.city}}</p>
                 <p class="degree-class">{{city.temCelsius}}°</p>

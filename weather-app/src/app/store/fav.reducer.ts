@@ -1,44 +1,68 @@
-// // import { createReducer, on } from '@ngrx/store';
-// // // import { increment, decrement, reset } from './counter.actions';
+// import { Action, createReducer, on } from '@ngrx/store';
+// import * as FavActions from './fav.actions';
 
-// // export const initialState = 0;
+// export interface info {
+//     id: string;
+//     city: string;
+//     weatherText: string;
+//     temCelsius: string;
+//     temFahrenheit: string;
+// }
 
-// // const _counterReducer = createReducer(initialState,
-// // //   on(increment, state => state + 1),
-// // //   on(decrement, state => state - 1),
-// // //   on(reset, state => 0),
-// // );
+// export interface State {
+//     cityList: info[];
+// }
 
-// // export function counterReducer(state, action) {
-// //   return _counterReducer(state, action);
-// // }
+// export const initialState: State = {
+//     cityList: []
+// };
 
-import { Action, createReducer, on } from '@ngrx/store';
-import * as FavActions from './fav.actions';
+// const scoreboardReducer = createReducer(
+//     initialState,
+//     // on(FavActions.addToFav, state => ({ ...state, home: state.home + 1 })),
+//     // on(FavActions.removeFromFav, state => ({ home: 0, away: 0 })),
+//     // on(FavActions.getAllFav, (state, { game }) => ({ home: game.home, away: game.away }))
+// );
 
-export interface info {
-    id: string;
-    city: string;
-    weatherText: string;
-    temCelsius: string;
-    temFahrenheit: string;
-}
+// export const getAll = createSelector(getEntities, getIds, (entities, ids) => {
+//     return cityLi;
+//   });
 
-export interface State {
-    cityList: info[];
-}
 
-export const initialState: State = {
-    cityList: []
+// export function favReducer(state: State | undefined, action: Action) {
+//     return scoreboardReducer(state, action);
+// }
+
+
+
+import { ActionsUnion, ActionTypes } from './fav.actions';
+    
+export const initialState = {
+//   items: [],
+  fav: []
 };
 
-const scoreboardReducer = createReducer(
-    initialState,
-    // on(FavActions.addToFav, state => ({ ...state, home: state.home + 1 })),
-    // on(FavActions.removeFromFav, state => ({ home: 0, away: 0 })),
-    // on(FavActions.getAllFav, (state, { game }) => ({ home: game.home, away: game.away }))
-);
+export function favReducer(state = initialState, action: ActionsUnion) {
+  switch (action.type) {
+    case ActionTypes.LoadSuccess:
+      return {
+        ...state,
+        fav: [...action.payload]
+      };
 
-export function favReducer(state: State | undefined, action: Action) {
-    return scoreboardReducer(state, action);
+    case ActionTypes.Add:
+      return {
+        ...state,
+        fav: [...state.fav, action.payload]
+      };
+
+    case ActionTypes.Remove:
+      return {
+        ...state,
+        fav: [...state.fav.filter(item => item.id !== action.payload.id)]
+      };
+
+    default:
+      return state;
+  }
 }

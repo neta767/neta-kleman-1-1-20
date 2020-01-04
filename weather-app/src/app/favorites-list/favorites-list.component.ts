@@ -20,7 +20,7 @@ export interface info {
 export class FavoritesListComponent implements OnInit {
   constructor(private store: Store<{ fav: number }>
   ) { }
-
+  fav = [];
   ngOnInit() {
     this.store.dispatch(getAllFav());
   }

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../rest.service';
-import { Observable } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { startWith, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { addToFav, removeFromFav, getAllFav } from '../store/fav.actions';
+import { AddToFav, RemoveFromFav, LoadFav } from '../store/fav.actions';
+import { ActivatedRoute } from '@angular/router';
+
 // import { addCity } from '../store/fav.actions';
 
 // export interface city {
@@ -37,10 +36,11 @@ export interface cityInfo {
   styleUrls: ['./home.scss']
 })
 export class HomeComponent implements OnInit {
+  city_id: string;
   metric: string = 'true';
   celsius: boolean = true;
   //
-  public onList: boolean = false;
+  inFavList: boolean = false;
 
   // cityCtrl = new FormControl();
   // filteredCitys: Observable<cityInfo[]>;
@@ -59,7 +59,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public rest: RestService,
-    private store: Store<{ fav: number }>
+    private route: ActivatedRoute,
+    private store: Store<{ fav: [] }>
   ) {
     // this.filteredCitys = this.cityCtrl.valueChanges
     //   .pipe(
@@ -74,6 +75,14 @@ export class HomeComponent implements OnInit {
   // }
 
   ngOnInit() {
+    if ((this.route.snapshot.paramMap.get('id')) != null && this.route.snapshot.paramMap.get('name') != null) {
+      //update city info
+      this.currentWeather.city = this.route.snapshot.paramMap.get('id');
+      this.currentWeather.id = this.route.snapshot.paramMap.get('name');
+
+      this.getWeather(this.currentWeather.id)
+    }
+
     //get loaction by coords
     if ("geolocation" in navigator) {
       navigator.geolocation.watchPosition((success) => {
@@ -147,16 +156,17 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  isOnTheFavoritesLise() {
-    this.store.dispatch(getAllFav());
-  }
+  // isOnTheFavoritesLise() {
+  //   this.store.dispatch(getAllFav());
+  // }
 
   updateFavoritesLise() {
-    if (!this.onList) {
-      this.store.dispatch(addToFav({ info: this.currentWeather }));
+    if (!this.inFavList) {
+      this.store.dispatch(new AddToFav(this.currentWeather));
     }
     else {
-      this.store.dispatch(removeFromFav({ id: this.currentWeather.id }));
+      this.store.dispatch(new RemoveFromFav(this.currentWeather));
     }
+    this.inFavList = !this.inFavList;
   }
 }
