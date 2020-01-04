@@ -15,12 +15,12 @@
     <div class="body">
         <div class="current-weather-container">
             <div>
-                <span class="city-class">{{cityName}}</span>
-                <span *ngIf="celsius" class="degree-class">{{todayWeather.TemperatureCelsius}}°</span>
-                <span *ngIf="!celsius" class="degree-class">{{todayWeather.TemperatureFahrenheit}}°</span>
+                <span class="city-class">{{currentWeather.city}}</span>
+                <span *ngIf="celsius" class="degree-class">{{currentWeather.temCelsius}}°</span>
+                <span *ngIf="!celsius" class="degree-class">{{currentWeather.temFahrenheit}}°</span>
             </div>
             <div class="text-container">
-                <span>{{todayWeather.WeatherText}}</span>
+                <span>{{currentWeather.weatherText}}</span>
             </div>
         </div>
         <div class="function-container">
@@ -30,7 +30,7 @@
                     <mat-icon *ngIf="onList" matTooltip="Remove from favorites" color="warn">favorite</mat-icon>
                 </button>
             </div>
-            <mat-button-toggle-group #group="matButtonToggleGroup" value="c" (change)="onValChange(group.value)">
+            <mat-button-toggle-group #group="matButtonToggleGroup" value="c" (change)="onUnitTemChange(group.value)">
                 <mat-button-toggle value="c">
                     C°
                 </mat-button-toggle>
@@ -40,14 +40,14 @@
             </mat-button-toggle-group>
         </div>
     </div>
-    <div class="week-weather-class">
+    <!-- <div class="week-weather-class">
         <div *ngFor="let day of forecastWeather">
             <mat-card>
                 <p class="day-class">{{day.day}}</p>
-                <p class="tem-class">{{day.Temperature}}°</p>
-                <!-- <mat-card-title>{{day.DailyForecasts.Date}}</mat-card-title>
+                <p class="tem-class">{{day.Temperature}}°</p> -->
+    <!-- <mat-card-title>{{day.DailyForecasts.Date}}</mat-card-title>
                             <mat-card-title>{{day.DailyForecasts.RealFeelTemperature.Maximum.Value}}</mat-card-title> -->
-            </mat-card>
+    <!-- </mat-card>
         </div>
-    </div>
+    </div> -->
 </div>
