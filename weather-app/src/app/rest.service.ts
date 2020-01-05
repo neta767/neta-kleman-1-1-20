@@ -11,7 +11,7 @@ import { catchError, retry } from 'rxjs/operators';
 })
 export class RestService {
   url = 'http://dataservice.accuweather.com/';
-  apiKey = 'E1BFGz8bPPijMsxnXwf5lmO0FGJncOFp';
+  apiKey = 'A9D20uSm39Ma2Cr9mrhAcBjAPz77PQE2';
 
   constructor(private http: HttpClient) { }
   // Handle API errors

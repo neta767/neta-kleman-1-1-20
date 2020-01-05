@@ -18,7 +18,9 @@ export interface info {
 export class FavoritesListComponent implements OnInit {
   constructor(private store: Store<{ fav: [] }>
   ) {
-    store.pipe(select('fav')).subscribe(data => (this.fav = data.fav));
+    let obj;
+    this.store.select(el => obj = el).subscribe();
+    this.fav = obj.fav.fav;
   }
 
   fav: info[] = [];
