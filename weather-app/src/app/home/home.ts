@@ -166,13 +166,6 @@ export class HomeComponent implements OnInit {
     // })
     // this.inFavList = arr.some(el => el.id === this.currentWeather.id);
   }
-
-  showSuccess() {
-    // this.toastr.error('Hello world!', 'Toastr fun!', {
-    //   timeOut: 3000
-    // });
-  }
-
   updateFavoritesLise() {
     if (!this.inFavList) {
       this.store.dispatch(new AddToFav(this.currentWeather));
@@ -181,5 +174,12 @@ export class HomeComponent implements OnInit {
       this.store.dispatch(new RemoveFromFav(this.currentWeather));
     }
     this.inFavList = !this.inFavList;
+  }
+
+  showError() {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      width: '250px',
+      data: { name: this.name, animal: this.animal }
+    });
   }
 }
