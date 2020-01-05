@@ -167,6 +167,12 @@ export class HomeComponent implements OnInit {
     // this.inFavList = arr.some(el => el.id === this.currentWeather.id);
   }
 
+  showSuccess() {
+    // this.toastr.error('Hello world!', 'Toastr fun!', {
+    //   timeOut: 3000
+    // });
+  }
+
   updateFavoritesLise() {
     if (!this.inFavList) {
       this.store.dispatch(new AddToFav(this.currentWeather));

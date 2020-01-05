@@ -22,6 +22,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 //store
 import { favReducer } from './store/fav.reducer';
@@ -29,7 +30,6 @@ import { favReducer } from './store/fav.reducer';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 
 @NgModule({
@@ -55,9 +55,9 @@ import { StoreModule } from '@ngrx/store';
     MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule,
     MatButtonToggleModule,
-    MatTooltipModule,
+    MatTooltipModule, 
+    MatDialogModule,
     StoreModule.forRoot({ fav: favReducer })
   ],
   providers: [],
