@@ -3,6 +3,9 @@ import { RestService } from '../rest.service';
 import { Store } from '@ngrx/store';
 import { AddToFav, RemoveFromFav } from '../store/fav.actions';
 import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialg } from '../error-dialg/error-dialg.component';
 
 // import { addCity } from '../store/fav.actions';
 
@@ -36,6 +39,8 @@ export interface cityInfo {
   styleUrls: ['./home.scss']
 })
 export class HomeComponent implements OnInit {
+  searchForm: FormGroup;
+
   city_id: string;
   metric: string = 'true';
   celsius: boolean = true;
@@ -60,7 +65,9 @@ export class HomeComponent implements OnInit {
   constructor(
     public rest: RestService,
     private route: ActivatedRoute,
-    private store: Store<{ fav: [] }>
+    private store: Store<{ fav: [] }>,
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog
   ) {
     // this.filteredCitys = this.cityCtrl.valueChanges
     //   .pipe(
@@ -75,6 +82,10 @@ export class HomeComponent implements OnInit {
   // }
 
   ngOnInit() {
+    this.searchForm = this.formBuilder.group({
+      citySearch: ['', Validators.pattern('^[a-zA-Z \-\']+')]
+    });
+
     if ((this.route.snapshot.paramMap.get('id')) != null && this.route.snapshot.paramMap.get('name') != null) {
       this.isOnTheFavoritesLise();
       //update city info
@@ -84,9 +95,11 @@ export class HomeComponent implements OnInit {
     //get loaction by coords
     if ("geolocation" in navigator) {
       navigator.geolocation.watchPosition((success) => {
-        this.rest.getGeopositionByCoords(success.coords.latitude.toString() + ',' + success.coords.longitude.toString()).subscribe(res => {
-          this.updateInfo(res.Key, res.LocalizedName);
-        })
+        this.rest.getGeopositionByCoords(success.coords.latitude.toString() + ',' + success.coords.longitude.toString())
+          .subscribe(res => {
+            this.updateInfo(res.Key, res.LocalizedName)
+          },
+            error => this.showError(error))
       });
     }
   }
@@ -101,7 +114,8 @@ export class HomeComponent implements OnInit {
         temFahrenheit: res[0].Temperature.Imperial.Value,
         weatherText: res[0].WeatherText
       }
-    })
+    },
+      error => this.showError(error))
 
     this.isOnTheFavoritesLise();
 
@@ -113,7 +127,8 @@ export class HomeComponent implements OnInit {
           temCelsius: res.DailyForecasts[index].Temperature.Maximum.Value
         }
       }
-    })
+    },
+      error => this.showError(error))
 
     //get 5 Days Forecasts in fahrenheit
     this.rest.getForecasts(locationKey, 'false').subscribe(res => {
@@ -122,7 +137,8 @@ export class HomeComponent implements OnInit {
         this.weekForecast[index].day = this.weekForecast[index].day;
         this.weekForecast[index].temCelsius = this.weekForecast[index].temCelsius;
       }
-    })
+    },
+      error => this.showError(error))
   }
 
   getDayInWeek(num: number): string {
@@ -151,20 +167,21 @@ export class HomeComponent implements OnInit {
   // }
 
   searchWeatherByName(cityName: string) {
+    if (this.searchForm.invalid) {
+      this.showError('Search is valid only in english');
+      return;
+    }
     this.rest.getAutocomplete(cityName).subscribe(res => {
       //update city info
       this.updateInfo(res[0].Key, res[0].LocalizedName);
-    })
+    },
+      error => this.showError(error))
   }
 
   isOnTheFavoritesLise() {
-    // let arr: info[] = [];
-    // arr = this.store.dispatch(new GetFavs());
-    // // this.store.select(x => arr = x).subscribe();
-    // // this.store.select('dataStore').subscribe(data => {
-    //   console.log(data)
-    // })
-    // this.inFavList = arr.some(el => el.id === this.currentWeather.id);
+    let arr: any;
+    this.store.select(x => arr = x.fav.fav).subscribe();
+    this.inFavList = arr.some(el => el.id === this.currentWeather.id);
   }
   updateFavoritesLise() {
     if (!this.inFavList) {
@@ -176,10 +193,11 @@ export class HomeComponent implements OnInit {
     this.inFavList = !this.inFavList;
   }
 
-  showError() {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+  showError(error: string) {
+    this.dialog.open(ErrorDialg, {
       width: '250px',
-      data: { name: this.name, animal: this.animal }
+      data: error
     });
   }
+
 }

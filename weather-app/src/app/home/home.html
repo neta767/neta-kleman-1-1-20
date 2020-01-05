@@ -1,16 +1,19 @@
 <div class="container">
-    <mat-form-field class="form-container">
-        <!-- [matAutocomplete]="auto" [formControl]="cityCtrl" (keyup)="onKeyUp(citySearch.value)"-->
-        <input matInput placeholder="City" #citySearch>
-        <!-- <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let city of filteredCitys | async" [value]="city.name">
-                <span (click)="searchWeatherByKey(city.id,city.name)">{{city.name}}</span>
-            </mat-option>
-        </mat-autocomplete> -->
-        <button mat-icon-button matSuffix (click)="searchWeatherByName(citySearch.value)">
-            <mat-icon>search</mat-icon>
-        </button>
-    </mat-form-field>
+
+    <form [formGroup]="searchForm">
+        <mat-form-field class="form-container">
+            <!-- [matAutocomplete]="auto" [formControl]="cityCtrl" (keyup)="onKeyUp(citySearch.value)"-->
+            <input matInput placeholder="City" #citySearch formControlName="citySearch">
+            <!-- <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let city of filteredCitys | async" [value]="city.name">
+                    <span (click)="searchWeatherByKey(city.id,city.name)">{{city.name}}</span>
+                </mat-option>
+            </mat-autocomplete> -->
+            <button mat-icon-button matSuffix (click)="searchWeatherByName(citySearch.value)">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+    </form>
 
     <div class="body">
         <div class="current-weather-container">
@@ -40,7 +43,6 @@
             </mat-button-toggle-group>
         </div>
     </div>
-    <button (click)="showSuccess()">dsfsdf</button>
 
     <div class="week-weather-class">
         <div *ngFor="let day of weekForecast">

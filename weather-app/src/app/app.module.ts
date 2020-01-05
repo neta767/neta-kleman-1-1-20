@@ -31,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { StoreModule } from '@ngrx/store';
+import { ErrorDialg } from './error-dialg/error-dialg.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,11 @@ import { StoreModule } from '@ngrx/store';
     HomeComponent,
     FavoritesListComponent,
     PageNotFoundComponent,
-    TopBarComponent
+    TopBarComponent,
+    ErrorDialg
+  ], 
+  entryComponents: [
+    ErrorDialg
   ],
   imports: [
     BrowserModule,
