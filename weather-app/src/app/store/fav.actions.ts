@@ -20,14 +20,10 @@ export class AddToFav implements Action {
   constructor(public payload: info) { }
 }
 
-export class GetFavs implements Action {
-  readonly type = ActionTypes.LoadFavs;
-}
-
 export class RemoveFromFav implements Action {
   readonly type = ActionTypes.Remove;
 
   constructor(public payload: info) { }
 }
 
-export type ActionsUnion = AddToFav | RemoveFromFav | GetFavs;  
+export type ActionsUnion = AddToFav | RemoveFromFav ;  

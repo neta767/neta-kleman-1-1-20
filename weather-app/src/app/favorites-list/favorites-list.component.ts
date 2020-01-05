@@ -20,9 +20,6 @@ export class FavoritesListComponent implements OnInit {
   ) {
     store.pipe(select('fav')).subscribe(data => (this.fav = data.fav));
   }
-  some(s){
-    console.log(s)
-  }
 
   fav: info[] = [];
   ngOnInit() {

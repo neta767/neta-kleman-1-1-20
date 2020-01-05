@@ -18,12 +18,6 @@ export function favReducer(state = initialState, action: ActionsUnion) {
         fav: [...state.fav.filter(item => item.id !== action.payload.id)]
       };
 
-    // case ActionTypes.LoadFavs:
-    //   return {
-    //     ...state,
-    //     fav: this._store.fav
-    //   };
-
     default:
       return state;
   }

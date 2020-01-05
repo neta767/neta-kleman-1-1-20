@@ -7,13 +7,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialg } from '../error-dialg/error-dialg.component';
 
-// import { addCity } from '../store/fav.actions';
-
-// export interface city {
-//   Key: string;
-//   LocalizedName: string;
-// }
-
 export interface info {
   id: string;
   city: string;
@@ -39,17 +32,12 @@ export interface cityInfo {
   styleUrls: ['./home.scss']
 })
 export class HomeComponent implements OnInit {
+  hasError = true;
   searchForm: FormGroup;
-
   city_id: string;
   metric: string = 'true';
   celsius: boolean = true;
-  //
   inFavList: boolean = false;
-
-  // cityCtrl = new FormControl();
-  // filteredCitys: Observable<cityInfo[]>;
-  // citys: cityInfo[] = [];
 
   currentWeather: info = {
     id: '',
@@ -68,18 +56,8 @@ export class HomeComponent implements OnInit {
     private store: Store<{ fav: [] }>,
     private formBuilder: FormBuilder,
     public dialog: MatDialog
-  ) {
-    // this.filteredCitys = this.cityCtrl.valueChanges
-    //   .pipe(
-    //     startWith(''),
-    //     map(city => city ? this._filterCitys(city) : this.citys.slice())
-    //   );
-  }
+  ) { }
 
-  // private _filterCitys(value: string): cityInfo[] {
-  //   const filterValue = value.toLowerCase();
-  //   return this.citys.filter(city => city.name.toLowerCase().indexOf(filterValue) === 0);
-  // }
 
   ngOnInit() {
     this.searchForm = this.formBuilder.group({
@@ -87,14 +65,12 @@ export class HomeComponent implements OnInit {
     });
 
     if ((this.route.snapshot.paramMap.get('id')) != null && this.route.snapshot.paramMap.get('name') != null) {
-      this.isOnTheFavoritesLise();
       //update city info
       this.updateInfo(this.route.snapshot.paramMap.get('id'), this.route.snapshot.paramMap.get('name'))
     }
-
-    //get loaction by coords
-    if ("geolocation" in navigator) {
-      navigator.geolocation.watchPosition((success) => {
+    else {
+      //get loaction by coords
+      navigator.geolocation.getCurrentPosition((success) => {
         this.rest.getGeopositionByCoords(success.coords.latitude.toString() + ',' + success.coords.longitude.toString())
           .subscribe(res => {
             this.updateInfo(res.Key, res.LocalizedName)
@@ -106,7 +82,7 @@ export class HomeComponent implements OnInit {
 
   updateInfo(locationKey: string, name: string) {
     //get current weather in locationKey
-    this.rest.getCurrentConditions(locationKey).subscribe(res => {
+    this.rest.getCurrentConditions(locationKey.toString()).subscribe(res => {
       this.currentWeather = {
         city: name,
         id: locationKey,
@@ -137,6 +113,7 @@ export class HomeComponent implements OnInit {
         this.weekForecast[index].day = this.weekForecast[index].day;
         this.weekForecast[index].temCelsius = this.weekForecast[index].temCelsius;
       }
+      this.hasError = false;
     },
       error => this.showError(error))
   }
@@ -149,22 +126,6 @@ export class HomeComponent implements OnInit {
   onUnitTemChange(temUnit: string) {
     temUnit === 'c' ? this.celsius = true : this.celsius = false;
   }
-
-  // public onKeyUp(searchingText: string): void {
-  // this.rest.getAutocomplete(searchingText).subscribe(res => {
-  //   res.forEach(element => {
-  //     this.citys.push({ id: element.key, name: element.LocalizedName })
-  //   });
-  //   console.log(this.citys)
-  // })
-  // }
-
-  // searchWeatherByKey(key: string, name: string) {
-  //   //update city info
-  //   this.currentWeather.city = name;
-  //   this.currentWeather.id = key;
-  //   this.getWeather(key);
-  // }
 
   searchWeatherByName(cityName: string) {
     if (this.searchForm.invalid) {
@@ -179,10 +140,13 @@ export class HomeComponent implements OnInit {
   }
 
   isOnTheFavoritesLise() {
-    let arr: any;
-    this.store.select(x => arr = x.fav.fav).subscribe();
-    this.inFavList = arr.some(el => el.id === this.currentWeather.id);
+    setTimeout(() => {
+      let arr: any;
+      this.store.select(x => arr = x.fav.fav).subscribe();
+      this.inFavList = arr.some(el => el.id === this.currentWeather.id);
+    }, 0)
   }
+
   updateFavoritesLise() {
     if (!this.inFavList) {
       this.store.dispatch(new AddToFav(this.currentWeather));
@@ -194,10 +158,12 @@ export class HomeComponent implements OnInit {
   }
 
   showError(error: string) {
-    this.dialog.open(ErrorDialg, {
-      width: '250px',
-      data: error
-    });
+    this.hasError = true;
+    if (this.dialog.openDialogs.length == 0) {
+      this.dialog.open(ErrorDialg, {
+        width: '250px',
+        data: error
+      })
+    }
   }
-
 }
