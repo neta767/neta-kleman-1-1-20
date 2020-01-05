@@ -93,8 +93,6 @@ export class HomeComponent implements OnInit {
     },
       error => this.showError(error))
 
-    this.isOnTheFavoritesLise();
-
     //get 5 Days Forecasts in celsius
     this.rest.getForecasts(locationKey, 'true').subscribe(res => {
       for (let index = 0; index < 5; index++) {
@@ -113,6 +111,7 @@ export class HomeComponent implements OnInit {
         this.weekForecast[index].day = this.weekForecast[index].day;
         this.weekForecast[index].temCelsius = this.weekForecast[index].temCelsius;
       }
+      this.isOnTheFavoritesLise();
       this.hasError = false;
     },
       error => this.showError(error))
@@ -141,9 +140,9 @@ export class HomeComponent implements OnInit {
 
   isOnTheFavoritesLise() {
     setTimeout(() => {
-      let arr: any;
-      this.store.select(x => arr = x.fav.fav).subscribe();
-      this.inFavList = arr.some(el => el.id === this.currentWeather.id);
+      let obj: any;
+      this.store.select(x => obj = x).subscribe();
+      this.inFavList = obj.fav.fav.some(el => el.id === this.currentWeather.id);
     }, 0)
   }
 
