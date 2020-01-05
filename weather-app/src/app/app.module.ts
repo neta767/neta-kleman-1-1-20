@@ -1,25 +1,49 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
+//components
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { FavoritesListComponent } from './favorites-list/favorites-list.component';
-import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HttpClientModule } from '@angular/common/http';
-import { MatInputModule } from '@angular/material/input';
-import {MatTabsModule} from '@angular/material/tabs';
+import { HomeComponent } from './home/home';
 import { TopBarComponent } from './top-bar/top-bar.component';
+
+//modules
+import { AppRoutingModule } from './app-routing.module';
+
+//material
+import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+
+//store
+import { favReducer } from './store/fav.reducer';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { StoreModule } from '@ngrx/store';
+import { ErrorDialg } from './error-dialg/error-dialg.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WeatherForecastComponent,
+    HomeComponent,
     FavoritesListComponent,
     PageNotFoundComponent,
-    TopBarComponent
+    TopBarComponent,
+    ErrorDialg
+  ], 
+  entryComponents: [
+    ErrorDialg
   ],
   imports: [
     BrowserModule,
@@ -28,7 +52,18 @@ import { TopBarComponent } from './top-bar/top-bar.component';
     MatToolbarModule,
     HttpClientModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSlideToggleModule,
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    MatAutocompleteModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonToggleModule,
+    MatTooltipModule, 
+    MatDialogModule,
+    StoreModule.forRoot({ fav: favReducer })
   ],
   providers: [],
   bootstrap: [AppComponent]
