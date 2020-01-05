@@ -9,9 +9,10 @@ import { catchError, retry } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
+
 export class RestService {
-  url = 'http://dataservice.accuweather.com/';
-  apiKey = 'A9D20uSm39Ma2Cr9mrhAcBjAPz77PQE2';
+  url = 'https://dataservice.accuweather.com/';
+  apiKey = 'p6LxgnGQ6hvcznFR5xsGzELOF3L3mysb';
 
   constructor(private http: HttpClient) { }
   // Handle API errors

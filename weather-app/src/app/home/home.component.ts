@@ -5,7 +5,7 @@ import { AddToFav, RemoveFromFav } from '../store/fav.actions';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ErrorDialg } from '../error-dialg/error-dialg.component';
+import { ErrorDialog } from '../error-dialog/error-dialog.component';
 
 export interface info {
   id: string;
@@ -28,8 +28,8 @@ export interface cityInfo {
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.html',
-  styleUrls: ['./home.scss']
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   hasError = true;
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
   weekForecast: dayWeather[] = [this.emptyForecast, this.emptyForecast, this.emptyForecast, this.emptyForecast, this.emptyForecast];
 
   constructor(
-    private rest: RestService,
+    public rest: RestService,
     private route: ActivatedRoute,
     private store: Store<{ fav: [] }>,
     private formBuilder: FormBuilder,
@@ -159,7 +159,7 @@ export class HomeComponent implements OnInit {
   showError(error: string) {
     this.hasError = true;
     if (this.dialog.openDialogs.length == 0) {
-      this.dialog.open(ErrorDialg, {
+      this.dialog.open(ErrorDialog, {
         width: '250px',
         data: error
       })
