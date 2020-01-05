@@ -19,6 +19,7 @@ export class FavoritesListComponent implements OnInit {
   constructor(private store: Store<{ fav: [] }>
   ) {
     store.pipe(select('fav')).subscribe(data => (this.fav = data.fav));
+    console.log(this.fav)
   }
 
   fav: info[] = [];

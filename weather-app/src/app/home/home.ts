@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../rest.service';
 import { Store } from '@ngrx/store';
-import { AddToFav, RemoveFromFav, GetFavs } from '../store/fav.actions';
+import { AddToFav, RemoveFromFav } from '../store/fav.actions';
 import { ActivatedRoute } from '@angular/router';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 // import { addCity } from '../store/fav.actions';
 
@@ -86,10 +85,6 @@ export class HomeComponent implements OnInit {
     if ("geolocation" in navigator) {
       navigator.geolocation.watchPosition((success) => {
         this.rest.getGeopositionByCoords(success.coords.latitude.toString() + ',' + success.coords.longitude.toString()).subscribe(res => {
-          //update city info
-          this.currentWeather.city = res.LocalizedName;
-          this.currentWeather.id = res.key;
-
           this.updateInfo(res.Key, res.LocalizedName);
         })
       });
@@ -163,9 +158,13 @@ export class HomeComponent implements OnInit {
   }
 
   isOnTheFavoritesLise() {
-    let arr: info[] = [];
+    // let arr: info[] = [];
     // arr = this.store.dispatch(new GetFavs());
-    this.inFavList = arr.some(el => el.id === this.currentWeather.id);
+    // // this.store.select(x => arr = x).subscribe();
+    // // this.store.select('dataStore').subscribe(data => {
+    //   console.log(data)
+    // })
+    // this.inFavList = arr.some(el => el.id === this.currentWeather.id);
   }
 
   updateFavoritesLise() {

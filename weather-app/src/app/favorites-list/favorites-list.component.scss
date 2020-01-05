@@ -5,12 +5,21 @@
     flex-wrap: wrap;
 }
 
-.card-class{
-    margin: 2em;
+a{
+    text-decoration: none;
 }
+
+mat-card {
+    width: 30%;
+}
+
+.city-class{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+   }
 
 .text-class{
  font-size: 20px;
- font-weight: bold;
  text-align: center;
 }
