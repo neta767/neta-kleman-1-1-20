@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RestService } from '../rest.service';
-import { Store } from '@ngrx/store';
-import { getAllFav } from '../store/fav.actions';
+import { Store, select } from '@ngrx/store';
 
 export interface info {
   id: string;
@@ -18,10 +16,12 @@ export interface info {
 })
 
 export class FavoritesListComponent implements OnInit {
-  constructor(private store: Store<{ fav: number }>
-  ) { }
-  fav = [];
+  constructor(private store: Store<{ fav: [] }>
+  ) {
+    store.pipe(select('fav')).subscribe(data => (this.fav = data.fav));
+  }
+
+  fav: info[] = [];
   ngOnInit() {
-    this.store.dispatch(getAllFav());
   }
 }

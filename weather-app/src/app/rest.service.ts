@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +8,9 @@ import { map, catchError, tap } from 'rxjs/operators';
 export class RestService {
   url = 'http://dataservice.accuweather.com/';
   // apiKey = 'ZkzqEU3O6h9XApVvsnAODmxGppdGXYiK';
-  apiKey = 'p6LxgnGQ6hvcznFR5xsGzELOF3L3mysb';
-
+  // apiKey = 'p6LxgnGQ6hvcznFR5xsGzELOF3L3mysb';
+  apiKey = '7EaKMkdzVANL9Af6qySLkYkLaB43IOtE';
+  
   constructor(private http: HttpClient) { }
   // getHeroes (): Observable<Hero[]> {
   //   return this.http.get<Hero[]>(this.heroesUrl)

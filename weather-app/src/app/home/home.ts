@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../rest.service';
 import { Store } from '@ngrx/store';
-import { AddToFav, RemoveFromFav, LoadFav } from '../store/fav.actions';
+import { AddToFav, RemoveFromFav, GetFavs } from '../store/fav.actions';
 import { ActivatedRoute } from '@angular/router';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 // import { addCity } from '../store/fav.actions';
 
@@ -20,9 +21,9 @@ export interface info {
 }
 
 export interface dayWeather {
-  day: string;
-  temCelsius: string;
-  temFahrenheit: string;
+  day?: string;
+  temCelsius?: string;
+  temFahrenheit?: string;
 }
 
 export interface cityInfo {
@@ -76,11 +77,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     if ((this.route.snapshot.paramMap.get('id')) != null && this.route.snapshot.paramMap.get('name') != null) {
+      this.isOnTheFavoritesLise();
       //update city info
-      this.currentWeather.city = this.route.snapshot.paramMap.get('id');
-      this.currentWeather.id = this.route.snapshot.paramMap.get('name');
-
-      this.getWeather(this.currentWeather.id)
+      this.updateInfo(this.route.snapshot.paramMap.get('id'), this.route.snapshot.paramMap.get('name'))
     }
 
     //get loaction by coords
@@ -91,25 +90,33 @@ export class HomeComponent implements OnInit {
           this.currentWeather.city = res.LocalizedName;
           this.currentWeather.id = res.key;
 
-          this.getWeather(res.Key);
+          this.updateInfo(res.Key, res.LocalizedName);
         })
       });
     }
   }
 
-  getWeather(locationKey: string) {
+  updateInfo(locationKey: string, name: string) {
     //get current weather in locationKey
     this.rest.getCurrentConditions(locationKey).subscribe(res => {
-      this.currentWeather.weatherText = res[0].WeatherText;
-      this.currentWeather.temCelsius = res[0].Temperature.Metric.Value;
-      this.currentWeather.temFahrenheit = res[0].Temperature.Imperial.Value;
+      this.currentWeather = {
+        city: name,
+        id: locationKey,
+        temCelsius: res[0].Temperature.Metric.Value,
+        temFahrenheit: res[0].Temperature.Imperial.Value,
+        weatherText: res[0].WeatherText
+      }
     })
+
+    this.isOnTheFavoritesLise();
 
     //get 5 Days Forecasts in celsius
     this.rest.getForecasts(locationKey, 'true').subscribe(res => {
       for (let index = 0; index < 5; index++) {
-        this.weekForecast[index].day = this.getDayInWeek(new Date(res.DailyForecasts[index].Date).getDay());
-        this.weekForecast[index].temCelsius = res.DailyForecasts[index].Temperature.Maximum.Value;
+        this.weekForecast[index] = {
+          day: this.getDayInWeek(new Date(res.DailyForecasts[index].Date).getDay()),
+          temCelsius: res.DailyForecasts[index].Temperature.Maximum.Value
+        }
       }
     })
 
@@ -117,7 +124,8 @@ export class HomeComponent implements OnInit {
     this.rest.getForecasts(locationKey, 'false').subscribe(res => {
       for (let index = 0; index < 5; index++) {
         this.weekForecast[index].temFahrenheit = res.DailyForecasts[index].Temperature.Maximum.Value;
-
+        this.weekForecast[index].day = this.weekForecast[index].day;
+        this.weekForecast[index].temCelsius = this.weekForecast[index].temCelsius;
       }
     })
   }
@@ -150,15 +158,15 @@ export class HomeComponent implements OnInit {
   searchWeatherByName(cityName: string) {
     this.rest.getAutocomplete(cityName).subscribe(res => {
       //update city info
-      this.currentWeather.city = res[0].LocalizedName;
-      this.currentWeather.id = res[0].key;
-      this.getWeather(res[0].Key);
+      this.updateInfo(res[0].Key, res[0].LocalizedName);
     })
   }
 
-  // isOnTheFavoritesLise() {
-  //   this.store.dispatch(getAllFav());
-  // }
+  isOnTheFavoritesLise() {
+    let arr: info[] = [];
+    // arr = this.store.dispatch(new GetFavs());
+    this.inFavList = arr.some(el => el.id === this.currentWeather.id);
+  }
 
   updateFavoritesLise() {
     if (!this.inFavList) {

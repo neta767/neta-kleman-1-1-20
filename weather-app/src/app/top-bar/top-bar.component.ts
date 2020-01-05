@@ -10,24 +10,25 @@ export class TopBarComponent implements OnInit {
   @Output() toogleDarkThemeEvent = new EventEmitter<boolean>();
 
   navLinks: any[];
-  activeLinkIndex = -1; 
+  activeLinkIndex = -1;
   constructor(private router: Router) {
     this.navLinks = [
-        {
-            label: 'Home',
-            link: './home',
-            index: 0
-        }, {
-            label: 'Favorites',
-            link: './favorites',
-            index: 1
-        }
+      {
+        label: 'Home',
+        link: './home',
+        index: 0
+      }, {
+        label: 'Favorites',
+        link: './favorites',
+        index: 1
+      }
     ];
   }
 
-  ngOnInit() {this.router.events.subscribe((res) => {
-    this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
-});
+  ngOnInit() {
+    this.router.events.subscribe((res) => {
+      this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
+    });
   }
 
   toggleDarkTheme(checked: boolean) {
